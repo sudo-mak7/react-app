@@ -1,0 +1,59 @@
+.add-button {
+    padding: 10px;
+    min-width: 100px;
+    background: #1fcaf9;
+    border: 3px solid #1fcaf9;
+    border-radius: 0 10px 10px 0;
+    box-sizing: border-box;
+    font-size: 1.1rem;
+    text-align: center;
+    color: white;
+    outline: none;
+    cursor: pointer;
+    user-select: none;
+}
+
+.add-button:active {
+    background: #06b1e0;
+    border: 3px solid #06b1e0;
+}
+
+.remove-button {
+    padding: 10px;
+    margin: 0;
+    min-width: 103px;
+    background: #ff3818;
+    border: 3px solid #ff3818;
+    border-radius: 0 10px 10px 0;
+    box-sizing: border-box;
+    font-size: 1.1rem;
+    color: white;
+    outline: none;
+    cursor: pointer;
+}
+
+.remove-button:active {
+    background: #e61f00;
+    border: 3px solid #e61f00;
+}
+
+.page-button {
+    padding: 10px;
+    margin: 20px 5px 30px 5px;
+    min-height: 15px;
+    min-width: 40px;
+    background: #1fcaf9;
+    border: 1px solid #1fcaf9;
+    border-radius: 10px;
+    box-sizing: border-box;
+    font-size: 1rem;
+    color: white;
+    outline: none;
+    cursor: pointer;
+    user-select: none;
+}
+
+.page-button:active {
+    background: #06b1e0;
+    border: 1px solid #06b1e0;
+}

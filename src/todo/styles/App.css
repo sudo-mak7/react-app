@@ -1,0 +1,66 @@
+@import 'input.css';
+@import 'button.css';
+
+.App {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  background-color: #282c34;
+  min-height: 100vh;
+  color: white;
+}
+
+.container {
+  padding: 0;
+  width: 40vw;
+}
+
+h1 {
+  font-size: 3.5em;
+  user-select: none;
+}
+
+ul {
+  align-items: center;
+  width: 100%;
+  margin: 40px auto 0 auto;
+  list-style-type: none;
+  padding-left: 0;
+  user-select: none;
+}
+
+li {
+  display: flex;
+  width: 100%;
+  margin-bottom: 15px;
+}
+
+.task {
+  display: flex;
+  align-items: center;
+  text-align: left;
+  padding: 10px;
+  margin: 0;
+  border: 2px solid #1fcaf9;
+  border-radius: 10px 0 0 10px;
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 125px;
+  font-size: 1.1rem;
+  outline: none;
+}
+
+label {
+  padding-bottom: 2px;
+  margin: 0 0 0 10px;
+}
+
+@keyframes App-loader-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}

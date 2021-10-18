@@ -1,0 +1,22 @@
+.input-section {
+    display: flex;
+    flex-direction: row;
+    align-items: baseline;
+    width: 100%;
+}
+
+.input {
+    padding: 10px;
+    margin: 0 0 0 0;
+    border: 3px solid #1fcaf9;
+    border-radius: 10px 0 0 10px;
+    width: 100%;
+    min-width: 100px;
+    font-size: 1.1rem;
+    outline: none;
+    user-select: none;
+}
+
+input:focus {
+    border: 3px solid #06b1e0;
+}
