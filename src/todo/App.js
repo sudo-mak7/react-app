@@ -1,43 +1,48 @@
 import './styles/App.css'
-import React, { useState } from 'react'
+import React from 'react'
 import Form from './components/Form'
 import Todo from './components/Todo'
+import firebase from 'firebase/compat/app'
+import 'firebase/compat/firestore'
+import { useCollectionData } from 'react-firebase-hooks/firestore'
 
 const App = () => {
-  let tasks = []
+  const dbTodoRef = firebase.firestore().collection('todos')
 
-  const [todos, setTodos] = useState(tasks)
+  const [todos, loading] = useCollectionData(
+    dbTodoRef.orderBy('createdAt', 'desc')
+  )
 
-  const addTodo = text => {
-    const newTodos = [
-      ...todos.reverse(),
-      {
-        id: !todos.length ? 1 : todos[todos.length - 1].id + 1,
+  const addTodo = async text => {
+    const ref = await dbTodoRef.doc()
+
+    try {
+      await ref.set({
+        id: ref.id,
         text,
-        completed: false
-      },
-    ].reverse()
-    setTodos(newTodos)
+        completed: false,
+        createdAt: firebase.firestore.FieldValue.serverTimestamp()
+      })
+    } catch (e) {
+      console.warn(e)
+    }
   }
 
-  const completeTodo = id => {
-    const newTodos = [...todos]
-    newTodos.forEach((t) => {
-      if (t.id === id) {
-        t.completed === false
-          ? t.completed = true
-          : t.completed = false
-      }
-    })
-    setTodos(newTodos)
+  const completeTodo = async id => {
+    try {
+      const isCompleted = await dbTodoRef.doc(id).get().then(snapshot => snapshot.data().completed)
+      await dbTodoRef.doc(id).update({completed: !isCompleted})
+    } catch (e) {
+      console.warn(e)
+    }
   }
 
-  const removeTodo = id => {
-    const newTodos = [...todos]
-    newTodos.forEach((t, i) => {
-      if (t.id === id) newTodos.splice(i, 1)
-    })
-    setTodos(newTodos)
+  const removeTodo = async id => {
+    try {
+      await dbTodoRef.doc(id).delete()
+    } catch (e) {
+      console.warn(e)
+    }
   }
 
   return (
@@ -50,6 +55,7 @@ const App = () => {
         <Form addTodo={ addTodo }/>
 
         <Todo
+          loading={ loading }
           todos={ todos }
           completeTodo={ completeTodo }
           removeTodo={ removeTodo }

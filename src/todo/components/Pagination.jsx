@@ -6,7 +6,7 @@ const Pagination = ({ todos, todosPerPage, setPageHandler, currentPage }) => {
 
   useEffect(() => {
     const calculateTotalCountPage = () => {
-      setTotalCountPage(Math.ceil(todos.length / todosPerPage))
+        setTotalCountPage(Math.ceil(todos?.length / todosPerPage))
     }
     calculateTotalCountPage()
   })
@@ -34,7 +34,7 @@ const Pagination = ({ todos, todosPerPage, setPageHandler, currentPage }) => {
     }
   }
 
-  const renderPagination = (pages) => {
+  const renderPagination = pages => {
     if (pages.length >= 2) {
       return pages.map((page, index) => {
         return <button
