@@ -1,0 +1,41 @@
+@import 'to-todo-label.css';
+
+.board-row:after {
+    clear: both;
+    content: "";
+    display: table;
+}
+
+.status {
+    margin-top: -30px;
+    margin-bottom: 50px;
+}
+
+.square {
+    background: #282c34;
+    border: 5px solid #1fcaf9;
+    color: white;
+    font-size: 6vw;
+    float: left;
+    line-height: 0;
+    height: 8vw;
+    margin-right: -3px;
+    margin-top: -3px;
+    width: 8vw;
+}
+
+.square:focus {
+    outline: none;
+    text-align: center;
+}
+
+.kbd-navigation .square:focus {
+    background: #ddd;
+}
+
+.game {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}

@@ -1,0 +1,51 @@
+@import '../../pages/todo-list/styles/todo.css';
+@import '../../pages/tic-tac-toe/styles/tictactoe.css';
+
+.App {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    background-color: #282c34;
+    min-height: 100vh;
+    color: white;
+}
+
+.container {
+    padding: 0;
+    width: 40vw;
+}
+
+h1 {
+    position: relative;
+    right: 25%;
+    font-size: 3.5em;
+    user-select: none;
+    width: 60vw;
+    text-align: center;
+}
+
+.page {
+    position: absolute;
+    overflow: hidden;
+}
+
+.page-enter {
+    opacity: 1;
+}
+
+.page-enter-active {
+    opacity: 0;
+    transform: translateX(100%);
+    transition: all 300ms ease;
+}
+
+.page-exit {
+    opacity: 1;
+}
+
+.page-exit-active {
+    opacity: 0;
+    transform: translateX(-100%);
+    transition: all 300ms ease;
+}

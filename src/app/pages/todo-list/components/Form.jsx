@@ -1,4 +1,4 @@
-import '../styles/App.css'
+import '../styles/todo.css'
 import React, { useState  } from 'react'
 
 const Form = ({ addTodo }) => {
