@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import './todo/styles/index.css'
-import App from './todo/App'
+import './app/pages/todo-list/styles/index.css'
+import App from './app/App'
 import firebase from 'firebase/compat/app'
 
 firebase.initializeApp({

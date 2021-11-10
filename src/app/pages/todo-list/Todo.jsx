@@ -1,12 +1,13 @@
-import './styles/App.css'
+import '../../common/styles/style.css'
 import React from 'react'
 import Form from './components/Form'
-import Todo from './components/Todo'
+import TodoList from './components/TodoList'
+import { useCollectionData } from 'react-firebase-hooks/firestore'
 import firebase from 'firebase/compat/app'
 import 'firebase/compat/firestore'
-import { useCollectionData } from 'react-firebase-hooks/firestore'
+import { Link } from 'react-router-dom'
 
-const App = () => {
+const Todo = () => {
   const dbTodoRef = firebase.firestore().collection('todos')
 
   const [todos, loading] = useCollectionData(
@@ -54,15 +55,21 @@ const App = () => {
 
         <Form addTodo={ addTodo }/>
 
-        <Todo
+        <TodoList
           loading={ loading }
           todos={ todos }
           completeTodo={ completeTodo }
           removeTodo={ removeTodo }
         />
+
+        <Link to='/tic-tac-toe'>
+          <div className="to-tictactoe-label">
+            <p>Крестики-<br/>нолики</p>
+          </div>
+        </Link>
       </main>
     </div>
   )
 }
 
-export default App
+export default Todo

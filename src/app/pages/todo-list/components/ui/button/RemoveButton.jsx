@@ -1,4 +1,4 @@
-import '../../../styles/App.css'
+import '../../../styles/todo.css'
 import React from 'react'
 
 const RemoveButton = ({ buttonValue, removeTodo, id, todos, todosPerPage, currentPage, setCurrentPage }) => {

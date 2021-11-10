@@ -1,0 +1,17 @@
+.to-tictactoe-label {
+    display: inline-block;
+    position: fixed;
+    right: 0;
+    top: 45vh;
+    float: right;
+    margin: 0;
+    min-width: 103px;
+    background: #06b1e0;
+    border: 3px solid #06b1e0;
+    border-radius: 10px 0 0 10px;
+    box-sizing: border-box;
+    font-size: 1rem;
+    color: white;
+    outline: none;
+    cursor: pointer;
+}

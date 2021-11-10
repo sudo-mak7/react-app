@@ -1,10 +1,10 @@
-import '../styles/App.css'
+import '../styles/todo.css'
 import React, { useCallback, useEffect, useState } from 'react'
-import Loader from './loader/Loader'
+import Loader from '../../../common/loader/Loader'
 import RemoveButton from './ui/button/RemoveButton'
 import Pagination from './Pagination'
 
-const Todo = ({ loading, todos, completeTodo, removeTodo }) => {
+const TodoList = ({ loading, todos, completeTodo, removeTodo }) => {
   const selectedPage = 1
   const todosPerPage = 3
 
@@ -17,17 +17,15 @@ const Todo = ({ loading, todos, completeTodo, removeTodo }) => {
   }, [])
 
   useEffect(() => {
-    if (todos?.length) {
-      for (let i = 0; i < Math.ceil(todos?.length / todosPerPage); i++){
-        todoPaginated[i] = todos?.slice((i * todosPerPage), (i * todosPerPage) + todosPerPage)
-      }
-      setPagination(todoPaginated)
-      setTodosOnCurrentPage(todoPaginated[currentPage - 1])
+    for (let i = 0; i < Math.ceil(todos?.length / todosPerPage); i++){
+      todoPaginated[i] = todos?.slice((i * todosPerPage), (i * todosPerPage) + todosPerPage)
     }
+    setPagination(todoPaginated)
+    setTodosOnCurrentPage(todoPaginated[currentPage - 1])
   }, [currentPage, setPageHandler, todoPaginated, todos])
 
   return (
-    <div>
+    <section>
       {loading
         ? <Loader/>
         : <ul>
@@ -66,8 +64,8 @@ const Todo = ({ loading, todos, completeTodo, removeTodo }) => {
         setPageHandler={ setPageHandler }
         currentPage={ currentPage }
       />
-    </div>
+    </section>
   )
 }
 
-export default Todo
+export default TodoList
