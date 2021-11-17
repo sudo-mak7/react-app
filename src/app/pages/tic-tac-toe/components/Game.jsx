@@ -1,19 +1,35 @@
-import React, {useEffect, useState} from 'react'
+import React, { useEffect } from 'react'
 import Board from './Board'
+import { useDispatch, useSelector } from 'react-redux'
+import {
+  setSquaresValuesAction,
+  setMovesAction,
+  setPlayerOneMovesAction,
+  setPlayerTwoMovesAction
+} from '../../../store/reducer/tic-tac-toe/gameProgressReducer'
+import {
+  addPlayerOneScoreAction,
+  addPlayerTwoScoreAction,
+  changePlayerAction,
+  setDrawAction,
+  setWinnerAction
+} from '../../../store/reducer/tic-tac-toe/gameStatusReducer'
 
 const Game = () => {
   const playerOne = '\u2715'
   const playerTwo = '\u2B58'
 
-  const [squaresValues, setSquaresValues] = useState(Array(9).fill(null))
-  const [player, setPlayer] = useState(playerOne)
-  const [moves, setMoves] = useState([])
-  const [playerOneMoves, setPlayerOneMoves] = useState([])
-  const [playerTwoMoves, setPlayerTwoMoves] = useState([])
-  const [winner, setWinner] = useState('')
-  const [draw, setDraw] = useState(false)
-  const [playerOneScore, setPlayerOneScore] = useState(0)
-  const [playerTwoScore, setPlayerTwoScore] = useState(0)
+  const dispatch = useDispatch()
+
+  const player = useSelector(state => state.status.player)
+  const winner = useSelector(state => state.status.winner)
+  const draw = useSelector(state => state.status.draw)
+  const playerOneScore = useSelector(state => state.status.playerOneScore)
+  const playerTwoScore = useSelector(state => state.status.playerTwoScore)
+  const squaresValues = useSelector(state => state.progress.squaresValues)
+  const moves = useSelector(state => state.progress.moves)
+  const playerOneMoves = useSelector(state => state.progress.playerOneMoves)
+  const playerTwoMoves = useSelector(state => state.progress.playerTwoMoves)
 
   useEffect(() => {
     const winningLines = [
@@ -35,67 +51,67 @@ const Game = () => {
         playerOneWins.push(playerOneMoves.includes(winningLines[i][j]))
       }
       if (!playerOneWins.includes(false) && !draw) {
-        setWinner(playerOne)
+        dispatch(setWinnerAction(playerOne))
       }
 
       for (let j = 0; j < winningLines[i].length; j++) {
         playerTwoWins.push(playerTwoMoves.includes(winningLines[i][j]))
       }
       if (!playerTwoWins.includes(false) && !draw) {
-        setWinner(playerTwo)
+        dispatch(setWinnerAction(playerTwo))
       }
     }
 
     if (!squaresValues.includes(null) && !winner) {
-      setDraw(true)
+      dispatch(setDrawAction(true))
     }
-  }, [draw, playerOneMoves, playerTwoMoves, squaresValues, winner])
+  }, [dispatch, draw, playerOneMoves, playerTwoMoves, squaresValues, winner])
 
   const handleClick = i => {
     if (!moves.includes(i) && !winner && !draw) {
       if (player === playerOne) {
-        setMoves([...moves, i])
-        setPlayerOneMoves([...playerOneMoves, i])
+        dispatch(setMovesAction([...moves, i]))
+        dispatch(setPlayerOneMovesAction([...playerOneMoves, i]))
       } else {
-        setMoves([...moves, i])
-        setPlayerTwoMoves([...playerTwoMoves, i])
+        dispatch(setMovesAction([...moves, i]))
+        dispatch(setPlayerTwoMovesAction([...playerTwoMoves, i]))
       }
 
       const squares = squaresValues.slice()
 
       squares[i] = player
-      setSquaresValues(squares)
+      dispatch(setSquaresValuesAction(squares))
 
       let nextPlayer = player
 
       nextPlayer = nextPlayer === playerOne ? playerTwo : playerOne
-      setPlayer(nextPlayer)
+      dispatch(changePlayerAction(nextPlayer))
     }
 
     if (winner || draw) {
       if (winner && !draw) {
         winner === playerOne
-          ? setPlayerOneScore(playerOneScore + 1)
-          : setPlayerTwoScore(playerTwoScore + 1)
+          ? dispatch(addPlayerOneScoreAction(playerOneScore))
+          : dispatch(addPlayerTwoScoreAction(playerTwoScore))
       }
 
-      setSquaresValues(Array(9).fill(null))
-      setMoves([])
-      setPlayerOneMoves([])
-      setPlayerTwoMoves([])
-      setWinner('')
-      setDraw(false)
+      dispatch(setSquaresValuesAction(Array(9).fill(null)))
+      dispatch(setMovesAction([]))
+      dispatch(setPlayerOneMovesAction([]))
+      dispatch(setPlayerTwoMovesAction([]))
+      dispatch(setWinnerAction(''))
+      dispatch(setDrawAction(false))
     }
   }
 
   return (
     <section className="game">
       <div className="status">
-        {draw
+        { draw
           ? <h2>Ничья!</h2>
           : winner
-            ? <h2>Победитель: {winner}</h2>
-            : <h2>Следующий ход: {player}</h2>
+            ? <h2>Победитель: { winner }</h2>
+            : <h2>Следующий ход: { player }</h2>
         }
       </div>
       <div className="game-board">
@@ -106,11 +122,11 @@ const Game = () => {
       </div>
 
       <div>
-        {playerOneScore !== 0 || playerTwoScore !==0
+        { playerOneScore !== 0 || playerTwoScore !==0
           ? <div>
             <h2>Счет:</h2>
-            <h2>Игрок {playerOne} – {playerOneScore}</h2>
-            <h2>Игрок {playerTwo} – {playerTwoScore}</h2>
+            <h2>Игрок { playerOne } – { playerOneScore }</h2>
+            <h2>Игрок { playerTwo } – { playerTwoScore }</h2>
           </div>
           : ''
         }
