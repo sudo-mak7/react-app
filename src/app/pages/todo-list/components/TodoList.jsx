@@ -1,35 +1,44 @@
 import '../styles/todo.css'
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useEffect } from 'react'
 import Loader from '../../../common/loader/Loader'
 import RemoveButton from './ui/button/RemoveButton'
 import Pagination from './Pagination'
+import { useDispatch, useSelector } from 'react-redux'
+import {
+  calculatePagesAction,
+  calculateTodosOnCurrentPageAction,
+  setCurrentPageAction
+} from '../../../store/reducer/todo-list/todoPaginationReducer'
 
 const TodoList = ({ loading, todos, completeTodo, removeTodo }) => {
+  // eslint-disable-next-line no-unused-vars
   const selectedPage = 1
   const todosPerPage = 3
 
-  const [todoPaginated, setPagination] = useState([])
-  const [todosOnCurrentPage, setTodosOnCurrentPage] = useState([])
-  const [currentPage, setCurrentPage] = useState(selectedPage)
+  const dispatch = useDispatch()
+
+  const todoPaginated = useSelector(state => state.pagination.todoPaginated)
+  const todosOnCurrentPage = useSelector(state => state.pagination.todosOnCurrentPage)
+  const currentPage = useSelector(state => state.pagination.currentPage)
 
   const setPageHandler = useCallback(selectedPage => {
-    setCurrentPage(selectedPage)
-  }, [])
+    dispatch(setCurrentPageAction(selectedPage))
+  }, [dispatch])
 
   useEffect(() => {
     for (let i = 0; i < Math.ceil(todos?.length / todosPerPage); i++){
       todoPaginated[i] = todos?.slice((i * todosPerPage), (i * todosPerPage) + todosPerPage)
     }
-    setPagination(todoPaginated)
-    setTodosOnCurrentPage(todoPaginated[currentPage - 1])
-  }, [currentPage, setPageHandler, todoPaginated, todos])
+    dispatch(calculatePagesAction(todoPaginated))
+    dispatch(calculateTodosOnCurrentPageAction(todoPaginated[currentPage - 1]))
+  }, [currentPage, dispatch, todoPaginated, todos])
 
   return (
     <section>
-      {loading
+      { loading
         ? <Loader/>
         : <ul>
-          {(!todos?.length)
+          { !todos?.length
             ? <p>Пока никаких дел нет...</p>
             : todosOnCurrentPage?.map((todo, index) => (
               <li
@@ -47,8 +56,6 @@ const TodoList = ({ loading, todos, completeTodo, removeTodo }) => {
                   buttonValue={ 'Удалить' }
                   removeTodo={ removeTodo }
                   id={ todo.id }
-                  setCurrentPage={ setCurrentPage }
-                  currentPage={ currentPage }
                   todos={ todos }
                   todosPerPage={ todosPerPage }
                 />

@@ -1,8 +1,7 @@
 import React from 'react'
 import Square from './Square'
 
-const Board = ({ squaresValues, handleClick,  }) => {
-
+const Board = ({ squaresValues, handleClick }) => {
   const renderSquare = i => {
     return <Square
       value={ squaresValues[i] }

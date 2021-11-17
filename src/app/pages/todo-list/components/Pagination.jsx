@@ -1,17 +1,18 @@
-import React, {useEffect, useState} from 'react'
+import React, { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { calculateTotalCountOfPagesAction } from '../../../store/reducer/todo-list/todoPaginationReducer'
 
 const Pagination = ({ todos, todosPerPage, setPageHandler, currentPage }) => {
-  const [totalCountPage, setTotalCountPage] = useState(1)
+  const dispatch = useDispatch()
+  const totalCountOfPages = useSelector(state => state.pagination.totalCountOfPages)
+
   let pages = []
 
   useEffect(() => {
-    const calculateTotalCountPage = () => {
-        setTotalCountPage(Math.ceil(todos?.length / todosPerPage))
-    }
-    calculateTotalCountPage()
-  })
+    dispatch(calculateTotalCountOfPagesAction(Math.ceil(todos?.length / todosPerPage)))
+  }, [dispatch, todos?.length, todosPerPage])
 
-  for (let i = 1; i <= totalCountPage; i++) {
+  for (let i = 1; i <= totalCountOfPages; i++) {
     pages = [
       ...pages,
       {
@@ -23,7 +24,7 @@ const Pagination = ({ todos, todosPerPage, setPageHandler, currentPage }) => {
 
   const changePage = e => {
     setPageHandler(Number(e.target.textContent))
-    for (let i = 1; i <= totalCountPage; i++) {
+    for (let i = 1; i <= totalCountOfPages; i++) {
       pages = [
         ...pages,
         {
