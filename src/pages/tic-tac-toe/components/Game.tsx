@@ -1,35 +1,39 @@
-import React, { useEffect } from 'react'
+import React, {useEffect} from 'react'
 import Board from './Board'
-import { useDispatch, useSelector } from 'react-redux'
+import { useTypedSelector } from '../../../hooks/useTypedSelector'
+import { useDispatch } from 'react-redux'
 import {
   setSquaresValuesAction,
   setMovesAction,
   setPlayerOneMovesAction,
-  setPlayerTwoMovesAction
-} from '../../../store/reducer/tic-tac-toe/gameProgressReducer'
-import {
+  setPlayerTwoMovesAction,
   addPlayerOneScoreAction,
   addPlayerTwoScoreAction,
   changePlayerAction,
   setDrawAction,
   setWinnerAction
-} from '../../../store/reducer/tic-tac-toe/gameStatusReducer'
+} from '../../../store/action-creators'
 
-const Game = () => {
+const Game: React.FC = () => {
   const playerOne = '\u2715'
   const playerTwo = '\u2B58'
 
   const dispatch = useDispatch()
 
-  const player = useSelector(state => state.status.player)
-  const winner = useSelector(state => state.status.winner)
-  const draw = useSelector(state => state.status.draw)
-  const playerOneScore = useSelector(state => state.status.playerOneScore)
-  const playerTwoScore = useSelector(state => state.status.playerTwoScore)
-  const squaresValues = useSelector(state => state.progress.squaresValues)
-  const moves = useSelector(state => state.progress.moves)
-  const playerOneMoves = useSelector(state => state.progress.playerOneMoves)
-  const playerTwoMoves = useSelector(state => state.progress.playerTwoMoves)
+  const {
+    squaresValues,
+    moves,
+    playerOneMoves,
+    playerTwoMoves
+  } = useTypedSelector(state => state.progress)
+
+  const {
+    player,
+    winner,
+    draw,
+    playerOneScore,
+    playerTwoScore
+  } = useTypedSelector(state => state.status)
 
   useEffect(() => {
     const winningLines = [
@@ -67,7 +71,7 @@ const Game = () => {
     }
   }, [dispatch, draw, playerOneMoves, playerTwoMoves, squaresValues, winner])
 
-  const handleClick = i => {
+  const handleClick = (i: number) => {
     if (!moves.includes(i) && !winner && !draw) {
       if (player === playerOne) {
         dispatch(setMovesAction([...moves, i]))
