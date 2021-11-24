@@ -6,13 +6,18 @@ import { BrowserRouter as Router } from 'react-router-dom'
 import { CSSTransition } from 'react-transition-group'
 import { useMatch, useResolvedPath } from 'react-router'
 
+interface ReactRouterProps {
+  path: string,
+  element?: any
+}
+
 const App = () => {
   const routes = [
     { path: '/', element: <Todo/> },
     { path: '/tic-tac-toe', element: <TicTacToe/> }
   ]
 
-  const MyRoute = ({ path, element }) => {
+  const MyRoute: React.FC<ReactRouterProps> = ({ path, element }) => {
     const resolvedPath = useResolvedPath(path)
     const match = useMatch(resolvedPath.pathname)
     return (

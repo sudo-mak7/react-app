@@ -1,8 +1,13 @@
 import React from 'react'
 import Square from './Square'
 
-const Board = ({ squaresValues, handleClick }) => {
-  const renderSquare = i => {
+interface BoardProps {
+  squaresValues: (null | string)[],
+  handleClick: (i: number) => void
+}
+
+const Board: React.FC<BoardProps> = ({ squaresValues, handleClick }) => {
+  const renderSquare = (i: number) => {
     return <Square
       value={ squaresValues[i] }
       onClick={ () => handleClick(i) }
